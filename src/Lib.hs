@@ -5,10 +5,9 @@ module Lib
 
 import           Control.Exception        (SomeException)
 import           Control.Exception.Lifted (handle)
+import           Data.Aeson               (encode, object, (.=))
 import           Data.Text                (Text)
-import qualified Data.Text                as T (intercalate)
-import qualified Data.Text.Lazy           as T (fromStrict)
-import qualified Data.Text.Lazy.Encoding  as T (encodeUtf8)
+import qualified Data.Text                as T (intercalate, unpack)
 import           Network.HTTP.Types       (status200, status400)
 import           Network.Wai              (Application, Request, Response
                                           , pathInfo, responseLBS)
@@ -47,11 +46,11 @@ validJson request =
             return $ responseLBS
                 status200
                 [("Content-Type", "application/json")]
-                $ T.encodeUtf8 $ T.fromStrict path -- FIXME: to json
+                $ encode $ object [("message" .= T.unpack path)] -- FIXME: json
         Nothing -> fail "Not Found"
 
 invalidJson :: SomeException -> Response
 invalidJson _ = responseLBS
     status400
     [("Content-Type", "application/json")]
-    $ "{\"message\":\"Error\"}"
+    $ encode $ object [("message" .= ("Error" :: String))]
