@@ -1,6 +1,5 @@
-FROM fpco/stack-build:lts-8.13
-RUN /usr/local/bin/stack setup
+FROM library/haskell:8.0.2
 RUN mkdir -p /app
 WORKDIR /app
-ADD . /app
-RUN /usr/local/bin/stack build
+COPY ./bbn-json-hs-exe /app/bbn-json-hs-exe
+ENTRYPOINT /app/bbn-json-hs-exe

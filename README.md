@@ -9,8 +9,18 @@ blog.bouzuya.net json api using haskell.
 
 ## Usage
 
+### Development
+
 ```bash
 $ stack exec bbn-json-hs-exe
+```
+
+### Deployment
+
+```bash
+$ ./scripts/docker-build.sh
+$ # use `-p ...:3000` or `export PORT=...`
+$ docker run -p 3000:3000 bouzuya/bbn-json-hs-exe:latest
 ```
 
 ## API

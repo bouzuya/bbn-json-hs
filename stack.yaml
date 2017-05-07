@@ -66,3 +66,6 @@ extra-package-dbs: []
 # compiler-check: newer-minor
 ghc-options:
   '*': -Wall
+
+docker:
+  enable: true
