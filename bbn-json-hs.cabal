@@ -16,10 +16,16 @@ cabal-version:       >=1.10
 library
   hs-source-dirs:      src
   exposed-modules:     Lib
+                     , Client
   build-depends:       aeson
                      , base >= 4.7 && < 5
+                     , conduit
+                     , conduit-extra
+                     , http-client-tls
+                     , http-conduit
                      , http-types
                      , lifted-base
+                     , resourcet
                      , text
                      , wai
                      , warp
