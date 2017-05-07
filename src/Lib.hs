@@ -14,7 +14,7 @@ import           Network.HTTP.Types       (status200, status400)
 import           Network.Wai              (Application, Request, Response,
                                            pathInfo, responseLBS)
 import           Network.Wai.Handler.Warp (run)
-import           Types                    (parseEntryList)
+import           Types                    (parseEntryDetail, parseEntryList)
 
 data Route =
     List |
@@ -37,8 +37,8 @@ routeToPath (Detail entryId) =
     ".json"
 
 parseByRoute :: Route -> Value -> Value
-parseByRoute List v = parseEntryList v
-parseByRoute _ _    = emptyObject
+parseByRoute List v       = parseEntryList v
+parseByRoute (Detail _) v = parseEntryDetail v
 
 runApp :: IO ()
 runApp = run 3000 app
