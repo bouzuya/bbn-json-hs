@@ -7,7 +7,7 @@ import           Control.Exception        (SomeException)
 import           Control.Exception.Lifted (handle)
 import           Data.Aeson               (encode, object, (.=))
 import           Data.Text                (Text)
-import qualified Data.Text                as T (intercalate, unpack)
+import qualified Data.Text                as T (append, intercalate, map, unpack)
 import           Network.HTTP.Types       (status200, status400)
 import           Network.Wai              (Application, Request, Response
                                           , pathInfo, responseLBS)
@@ -27,8 +27,11 @@ route request =
         id yyyy mm dd = T.intercalate "-" $ [yyyy, mm, dd]
 
 routeToPath :: Route -> Text
-routeToPath List = "/"
-routeToPath (Detail id) = id
+routeToPath List = "/posts.json"
+routeToPath (Detail id) =
+    "/" `T.append`
+    (T.map (\c -> if c == '-' then '/' else c) id) `T.append`
+    ".json"
 
 runApp :: IO ()
 runApp = run 3000 app
